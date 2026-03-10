@@ -1,0 +1,28 @@
+class Solution:
+    def dfs(self, node, parent, visited, adj):
+        visited[node] = True
+        
+        for neighbor in adj[node]:
+            if not visited[neighbor]:
+                if self.dfs(neighbor, node, visited, adj):
+                    return True
+            elif neighbor != parent:
+                return True
+        
+        return False
+
+    def isCycle(self, V, edges):
+        adj = [[] for _ in range(V)]
+        
+        for u, v in edges:
+            adj[u].append(v)
+            adj[v].append(u)
+        
+        visited = [False] * V
+        
+        for i in range(V):
+            if not visited[i]:
+                if self.dfs(i, -1, visited, adj):
+                    return True
+        
+        return False
